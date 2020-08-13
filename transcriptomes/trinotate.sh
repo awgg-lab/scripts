@@ -11,8 +11,8 @@
 #SQLite v3.29
 
 # Compute requirements:
-# 128GB RAM
-# 16 CPUs
+# 256GB RAM
+# 32 CPUs
 # 150h Walltime
 # 100GB Storage
 
@@ -24,6 +24,7 @@ TRANSCRIPTOME="/path/to/sample.Trinity.fasta"
 DATABASE="/path/to/trinotate_db"
 OUT_DIR="path/to/outputdir"
 RNAMMER="path/to/rnammer"
+TRINUTILS="path/to/trinotate/utils"
 CPUS="16"
 MEM="128"
 SLACK_URL="https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
@@ -67,7 +68,7 @@ fi
 echo "Starting Step 2: RNAMMER $(date)"
 
 #Concatenate all transcripts together into a super-scaffold, run RNAMMER to ID rRNA homologies, then transform the rRNA coordinates in the superscaffold back to the transcriptome reference coordinates.
-perl /apps/Trinotate-v3.2.0/util/rnammer_support/RnammerTranscriptome.pl --transcriptome ${TRANSCRIPTOME} --path_to_rnammer ${RNAMMER}
+perl ${TRINUTILS}/rnammer_support/RnammerTranscriptome.pl --transcriptome ${TRANSCRIPTOME} --path_to_rnammer ${RNAMMER}
 
 if [[ -s ${TRANSCRIPTOME}.rnammer.gff ]];
     then
@@ -217,7 +218,7 @@ fi
 echo "Starting Step 7: Extract GO Terms $(date)"
 
 #extract GO terms from trinotate.xls file
-perl /apps/Trinotate-v3.2.0/util/extract_GO_assignments_from_Trinotate_xls.pl \
+perl ${TRINUTILS}/extract_GO_assignments_from_Trinotate_xls.pl \
 --Trinotate_xls ${SAMPLE}_annotation_report.xls -T -I > ${SAMPLE}_go_inclancestral.txt
 
 if [[ -s ${SAMPLE}_go_inclancestral.txt ]];
