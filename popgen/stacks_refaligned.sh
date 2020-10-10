@@ -127,7 +127,7 @@ echo "Starting conversion and sorting of alignments..."
 
 parallel "bwa samse ${GENOME} ${REFALIGNED}/{}.sai ${CLEANED}/{}.fq.gz | samtools view -b > ${REFALIGNED}/{}.bam" < ${ALIGN_SAMPLES}
 
-for sample in ${ALIGN_SAMPLES}; do
+for sample in $(cat ${ALIGN_SAMPLES}); do
     samtools sort -@ ${CPUS} ${REFALIGNED}/${sample}.bam -o ${REFALIGNED}/${sample}.sort.bam
 done
 
