@@ -61,7 +61,7 @@ date
 echo "Starting ustacks ..."
 
 id=1
-for sample in $(cat ${SAMPLES}); do
+for sample in ${SAMPLES}; do
     ustacks -f ${CLEANED}/${sample}.fq.gz -o ${DENOVO} -i $id -M ${MAX_DISTANCE} -m ${MIN_DEPTH} -p ${CPUS}
     let "id+=1"
 done
